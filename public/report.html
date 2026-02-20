@@ -1,0 +1,99 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>WAICT Demo — Report mode</title>
+<script>
+  function addReport(report) {
+    const list = document.getElementById('reports');
+    if (!list) return;
+    if (list.querySelector('.pending')) list.innerHTML = '';
+    const b = report.body;
+    const card = document.createElement('li');
+    card.className = 'report-card';
+    card.innerHTML = `
+      <span class="report-url">${b.blockedURL}</span>
+      <span class="report-badge">${b.destination}</span>
+      <span class="report-badge">${b.reason}</span>
+    `;
+    list.appendChild(card);
+  }
+  if (typeof ReportingObserver !== 'undefined') {
+    new ReportingObserver((reports) => {
+      reports.forEach(addReport);
+    }, { types: ['integrity-violation'] }).observe();
+  }
+</script>
+<style>
+  body { font-family: sans-serif; max-width: 750px; margin: 40px auto; padding: 0 20px; }
+  table { border-collapse: collapse; width: 100%; margin-top: 16px; }
+  td, th { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+  th { background: #f5f5f5; }
+  .correct-result { color: green; font-weight: bold; }
+  .wrong-result { color: red; font-weight: bold; }
+  .pending { color: #999; }
+  img.resource { max-height: 150px; display: block; margin-bottom: 4px; }
+  code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+  #reports { list-style: none; padding: 0; margin: 0; }
+  .report-card { background: #fff8f0; border-left: 3px solid #e67e22; border-radius: 4px; padding: 8px 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .report-url { font-family: monospace; font-size: 0.9em; flex: 1; word-break: break-all; }
+  .report-badge { background: #e67e22; color: white; border-radius: 3px; padding: 2px 7px; font-size: 0.8em; white-space: nowrap; }
+  .back { margin-bottom: 20px; display: inline-block; }
+  .note { color: #666; margin-top: 16px; }
+</style>
+<body>
+  <a class="back" href="/">← Back</a>
+  <h1>Report mode</h1>
+  <p>Report mode allows all resources in <code>blocked-destinations</code> to load regardless of hash match, but generates an integrity violation report for each mismatch.</p>
+  <p>Header: <code>Integrity-Policy-WAICT-v1: manifest="/waict-manifest-report.json", blocked-destinations=(image script), mode=report, max-age=0</code></p>
+  <details>
+    <summary>Manifest: <code>/waict-manifest-report.json</code></summary>
+    <pre id="manifest">Loading...</pre>
+  </details>
+  <script>fetch('/waict-manifest-report.json').then(r => r.text()).then(t => document.getElementById('manifest').textContent = t);</script>
+
+  <table>
+    <tr><th>Resource</th><th>Expected</th><th>Result</th></tr>
+    <tr>
+      <td>correct.png</td>
+      <td>Loaded, no report</td>
+      <td>
+        <img class="resource" src="/resources/correct.png"
+          onload="document.getElementById('correct-png').textContent='Loaded'; document.getElementById('correct-png').className='correct-result'"
+          onerror="document.getElementById('correct-png').textContent='Blocked'; document.getElementById('correct-png').className='wrong-result'">
+        <span id="correct-png" class="pending">...</span>
+      </td>
+    </tr>
+    <tr>
+      <td>incorrect.png</td>
+      <td>Loaded, violation reported</td>
+      <td>
+        <img class="resource" src="/resources/incorrect.png"
+          onload="document.getElementById('incorrect-png').textContent='Loaded'; document.getElementById('incorrect-png').className='correct-result'"
+          onerror="document.getElementById('incorrect-png').textContent='Blocked'; document.getElementById('incorrect-png').className='wrong-result'">
+        <span id="incorrect-png" class="pending">...</span>
+      </td>
+    </tr>
+    <tr>
+      <td>correct.js</td>
+      <td>Executed, no report</td>
+      <td><span id="correct-js-status" class="pending">...</span></td>
+    </tr>
+    <tr>
+      <td>incorrect.js</td>
+      <td>Executed, violation reported</td>
+      <td><span id="incorrect-js-status" class="pending">...</span></td>
+    </tr>
+  </table>
+
+  <h2>Violation reports</h2>
+  <p class="note">Captured via <code>ReportingObserver</code>. Requires <code>dom.reporting.enabled</code> in about:config.</p>
+  <ul id="reports"><li class="pending">None yet...</li></ul>
+
+  <img src="/resources/fox.webp" style="position:fixed; bottom:16px; right:16px; height:80px;">
+  <script>window._incorrectJsExecutedClass = 'correct-result';</script>
+  <script src="/resources/correct.js"
+    onerror="document.getElementById('correct-js-status').textContent='Blocked'; document.getElementById('correct-js-status').className='wrong-result'">
+  </script>
+  <script src="/resources/incorrect.js"
+    onerror="document.getElementById('incorrect-js-status').textContent='Blocked'; document.getElementById('incorrect-js-status').className='wrong-result'">
+  </script>
+</body>
