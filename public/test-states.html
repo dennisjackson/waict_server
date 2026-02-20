@@ -1,0 +1,46 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>WAICT Status Indicator Test</title>
+<style>
+  body { font-family: sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; }
+  .state-container { display: flex; gap: 40px; margin: 20px 0; }
+  .state { flex: 1; border: 2px solid #ccc; padding: 20px; border-radius: 8px; }
+  .state h2 { margin-top: 0; }
+  code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+</style>
+<body>
+  <h1>WAICT Status Indicator Test</h1>
+  <p>This page shows what the status indicator looks like in both states:</p>
+
+  <div class="state-container">
+    <div class="state">
+      <h2>WAICT Enabled</h2>
+      <div style="margin: 16px 0;">
+        <img src="/resources/blocked.svg" style="height:80px; display: block;">
+        <p style="margin: 8px 0; font-weight: bold; color: green;">Your Browser Supports WAICT</p>
+      </div>
+      <p><small>This is what you see when WAICT is enabled. In enforce mode, <code>incorrect.js</code> (which has a wrong hash) gets blocked. In report mode, violation reports are generated for mismatched hashes.</small></p>
+    </div>
+
+    <div class="state">
+      <h2>WAICT Disabled</h2>
+      <div style="margin: 16px 0;">
+        <img src="/resources/success.svg" style="height:80px; display: block;">
+        <p style="margin: 8px 0; font-weight: bold; color: red;">Your browser does not support / has not enabled WAICT</p>
+      </div>
+      <p><small>This is what you see when WAICT is not enabled or not supported. All scripts load normally, including <code>incorrect.js</code>, and no violation reports are generated.</small></p>
+    </div>
+  </div>
+
+  <h2>How it works</h2>
+  <ul>
+    <li><code>correct.js</code> has the correct hash in the manifest → always loads</li>
+    <li><code>incorrect.js</code> has an incorrect hash in the manifest → gets blocked only when WAICT is enabled</li>
+    <li>In <strong>enforce mode</strong>: WAICT is detected when <code>incorrect.js</code> is blocked</li>
+    <li>In <strong>report mode</strong>: WAICT is detected when violation reports are generated (resources still load, but violations are reported)</li>
+    <li>By default (WAICT off): <code>incorrect.js</code> executes normally and no reports are generated</li>
+  </ul>
+
+  <p><a href="/">← Back to main demo</a></p>
+</body>
+</html>

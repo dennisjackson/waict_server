@@ -25,6 +25,7 @@ function contentType(p) {
   if (p.endsWith(".js"))   return "text/javascript; charset=utf-8";
   if (p.endsWith(".png"))  return "image/png";
   if (p.endsWith(".webp")) return "image/webp";
+  if (p.endsWith(".svg"))  return "image/svg+xml";
   return "application/octet-stream";
 }
 

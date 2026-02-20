@@ -42,6 +42,10 @@
 <body>
   <a class="back" href="/">← Back</a>
   <h1>Enforce mode</h1>
+  <div style="margin: 16px 0;">
+    <img id="status-indicator" src="/resources/success.svg" style="height:80px; display: block;">
+    <p id="status-text" style="margin: 8px 0; font-weight: bold; color: red;">Your browser does not support / has not enabled WAICT</p>
+  </div>
   <p>Enforce mode blocks all resources in <code>blocked-destinations</code> whose hash does not match the manifest, and generates an integrity violation report for each.</p>
   <p>Header: <code>Integrity-Policy-WAICT-v1: manifest="/waict-manifest.json", blocked-destinations=(image script), mode=enforce, max-age=0, endpoints=(default)</code></p>
   <details>
@@ -92,10 +96,27 @@
 
   <img src="/resources/fox.webp" style="position:fixed; bottom:16px; right:16px; height:80px;">
 
+  <script>
+    // Track if WAICT is working (incorrect.js should be blocked if WAICT is on)
+    window._waictWorking = false;
+    function updateStatusIndicator() {
+      const indicator = document.getElementById('status-indicator');
+      const statusText = document.getElementById('status-text');
+      if (window._waictWorking) {
+        indicator.src = '/resources/blocked.svg';
+        statusText.textContent = 'Your Browser Supports WAICT';
+        statusText.style.color = 'green';
+      } else {
+        indicator.src = '/resources/success.svg';
+        statusText.textContent = 'Your browser does not support / has not enabled WAICT';
+        statusText.style.color = 'red';
+      }
+    }
+  </script>
   <script src="/resources/correct.js"
     onerror="document.getElementById('correct-js-status').textContent='Blocked'; document.getElementById('correct-js-status').className='wrong-result'">
   </script>
   <script src="/resources/incorrect.js"
-    onerror="document.getElementById('incorrect-js-status').textContent='Blocked'; document.getElementById('incorrect-js-status').className='correct-result'">
+    onerror="window._waictWorking=true; updateStatusIndicator(); document.getElementById('incorrect-js-status').textContent='Blocked'; document.getElementById('incorrect-js-status').className='correct-result'">
   </script>
 </body>
