@@ -1,6 +1,10 @@
-# WAICT Small Test Server
+# WAICT Demo Server
+
+A developer-facing demo server for testing the Firefox WAICT implementation. Supports enforce mode, report mode, and navigation tests.
 
 ## Run
+
+No build step required. Start the server with:
 
 ```bash
 node server.js
@@ -8,15 +12,9 @@ node server.js
 
 Server listens on `http://localhost:8080`.
 
-## Test WAICT header behavior
+## Prerequisites
 
-```bash
-# v2: server does not support, returns an error response
-curl -I -H 'Sec-CH-WAICT: 2' http://localhost:8080/
+Enable the following prefs in `about:config`:
 
-# v1: returns response headers pointing to the manifest
-curl -I -H 'Sec-CH-WAICT: 1' http://localhost:8080/
-
-# no header: normal response with no WAICT headers
-curl -I http://localhost:8080/
-```
+- `security.waict.enabled` — enables WAICT enforcement
+- `dom.reporting.enabled` — enables `ReportingObserver`, required for the violation reports UI
