@@ -37,4 +37,4 @@ Enable the following prefs in Firefox `about:config`:
 
 ---
 
-[^1]: Pictures used in this repository are AI-generated.
+Pictures used in this repository are AI-generated.
