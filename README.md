@@ -34,3 +34,7 @@ Enable the following prefs in Firefox `about:config`:
 
 - `security.waict.enabled` — enables WAICT enforcement
 - `dom.reporting.enabled` — enables `ReportingObserver`, required for the violation reports UI
+
+---
+
+[^1]: Pictures used in this repository are AI-generated.
