@@ -1,0 +1,12 @@
+/enforce
+  Integrity-Policy-WAICT-v1: manifest="/waict-manifest.json", blocked-destinations=(image script), mode=enforce, max-age=0, endpoints=(default)
+
+/report
+  Integrity-Policy-WAICT-v1: manifest="/waict-manifest-report.json", blocked-destinations=(image script), mode=report, max-age=0, endpoints=(default)
+  Reporting-Endpoints: default="/reports"
+
+/nav/page1
+  Integrity-Policy-WAICT-v1: manifest="/waict-manifest-page1.json", blocked-destinations=(image), mode=enforce, max-age=0
+
+/nav/page2
+  Integrity-Policy-WAICT-v1: manifest="/waict-manifest-page2.json", blocked-destinations=(image), mode=enforce, max-age=0

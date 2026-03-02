@@ -1,0 +1,7 @@
+{
+  "name": "waict-server",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler pages dev public/"
+  }
+}
