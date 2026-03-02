@@ -62,20 +62,20 @@
   <table>
     <tr><th>Resource</th><th>Expected</th><th>Result</th></tr>
     <tr>
-      <td>correct.png</td>
+      <td>correct.webp</td>
       <td>Loaded, no report</td>
       <td>
-        <img class="resource" src="/resources/correct.png"
+        <img class="resource" src="/resources/correct.webp"
           onload="document.getElementById('correct-png').textContent='Loaded'; document.getElementById('correct-png').className='correct-result'"
           onerror="document.getElementById('correct-png').textContent='Blocked'; document.getElementById('correct-png').className='wrong-result'">
         <span id="correct-png" class="pending">...</span>
       </td>
     </tr>
     <tr>
-      <td>incorrect.png</td>
+      <td>incorrect.webp</td>
       <td>Loaded, violation reported</td>
       <td>
-        <img class="resource" src="/resources/incorrect.png"
+        <img class="resource" src="/resources/incorrect.webp"
           onload="document.getElementById('incorrect-png').textContent='Loaded'; document.getElementById('incorrect-png').className='correct-result'"
           onerror="document.getElementById('incorrect-png').textContent='Blocked'; document.getElementById('incorrect-png').className='wrong-result'">
         <span id="incorrect-png" class="pending">...</span>

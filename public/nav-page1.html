@@ -22,16 +22,16 @@
   <script>fetch('/waict-manifest-page1.json').then(r => r.text()).then(t => document.getElementById('manifest').textContent = t);</script>
 
   <p>
-    page1.png (expected: Loaded):
-    <img class="resource" src="/resources/page1.png"
+    page1.webp (expected: Loaded):
+    <img class="resource" src="/resources/page1.webp"
       onload="document.getElementById('page1-img').textContent='Loaded'; document.getElementById('page1-img').className='correct-result'"
       onerror="document.getElementById('page1-img').textContent='Blocked'; document.getElementById('page1-img').className='wrong-result'">
     <span id="page1-img" class="pending">...</span>
   </p>
 
   <p>
-    page2.png (expected: Blocked):
-    <img class="resource" src="/resources/page2.png"
+    page2.webp (expected: Blocked):
+    <img class="resource" src="/resources/page2.webp"
       onload="document.getElementById('page2-img').textContent='Loaded'; document.getElementById('page2-img').className='wrong-result'"
       onerror="document.getElementById('page2-img').textContent='Blocked'; document.getElementById('page2-img').className='correct-result'">
     <span id="page2-img" class="pending">...</span>
