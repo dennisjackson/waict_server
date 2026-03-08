@@ -3,5 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "wrangler pages dev public/"
+  },
+  "devDependencies": {
+    "wrangler": "^4.71.0"
   }
 }
