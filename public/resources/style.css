@@ -1,0 +1,46 @@
+/* Shared styles for WAICT demo pages */
+
+/* Base */
+body { font-family: sans-serif; max-width: 750px; margin: 40px auto; padding: 0 20px; }
+a { color: #0060df; }
+code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; word-break: break-word; }
+pre { overflow-x: auto; }
+.back { margin-bottom: 20px; display: inline-block; }
+.note { color: #666; margin-top: 16px; }
+.pending { color: #999; }
+
+/* Results */
+.correct-result { color: green; font-weight: bold; }
+.wrong-result { color: red; font-weight: bold; }
+img.resource { max-height: 150px; display: block; margin-bottom: 4px; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table { border-collapse: collapse; width: 100%; margin-top: 16px; }
+td, th { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+th { background: #f5f5f5; }
+
+/* Violation report cards */
+#reports { list-style: none; padding: 0; margin: 0; }
+.report-card { background: #fff8f0; border-left: 3px solid #e67e22; border-radius: 4px; padding: 8px 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.report-url { font-family: monospace; font-size: 0.9em; flex: 1; min-width: 0; word-break: break-all; }
+.report-badge { background: #e67e22; color: white; border-radius: 3px; padding: 2px 7px; font-size: 0.8em; white-space: nowrap; }
+
+/* Navigation links */
+.nav { margin-top: 32px; font-size: 1.1em; }
+
+/* State comparison (test-states page) */
+.state-container { display: flex; gap: 40px; margin: 20px 0; }
+.state { flex: 1; border: 2px solid #ccc; padding: 20px; border-radius: 8px; }
+.state h2 { margin-top: 0; }
+
+/* Fox mascot */
+.fox { position: fixed; bottom: 16px; right: 16px; height: 80px; }
+
+/* Mobile */
+@media (max-width: 600px) {
+  body { margin: 20px auto; padding: 0 16px; }
+  .state-container { flex-direction: column; gap: 20px; }
+  .fox { position: static; display: block; margin: 32px auto 0; height: 60px; }
+  td, th { padding: 6px 8px; font-size: 0.9em; }
+}
