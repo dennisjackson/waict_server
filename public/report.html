@@ -96,7 +96,14 @@
           statusHelp.innerHTML = 'Visit <a href="about:config">about:config</a> and set <code>security.waict.enabled</code> to <code>true</code>.';
         } else {
           statusText.textContent = 'Your browser does not support WAICT';
-          statusHelp.innerHTML = 'WAICT requires <a href="https://www.mozilla.org/firefox/">Firefox 150</a> or later.';
+          if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+            statusHelp.innerHTML = 'Unfortunately, Apple blocks third-party browsing engines on iOS so WAICT is unavailable on your device. <a href="https://open-web-advocacy.org/blog/apples-browser-engine-ban-persists-even-under-the-dma/">Learn more</a>.';
+          } else {
+            const nightlyURL = /Android/i.test(navigator.userAgent)
+              ? 'https://play.google.com/store/apps/details?id=org.mozilla.fenix'
+              : 'https://www.firefox.com/en-US/channel/desktop/';
+            statusHelp.innerHTML = 'WAICT requires <a href="' + nightlyURL + '">Firefox Nightly 150</a> or later.';
+          }
         }
         statusText.style.color = 'red';
       }
