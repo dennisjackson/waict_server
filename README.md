@@ -2,6 +2,8 @@
 
 A developer-facing demo server for testing the Firefox WAICT implementation. Runs on Cloudflare Pages with Workers functions. Supports enforce mode, report mode, and navigation tests.
 
+Credits: Created by Anna Weine, with some modifications by Dennis Jackson.
+
 ## Run locally
 
 ```bash
