@@ -91,7 +91,7 @@
         const ffVersion = getFirefoxVersion();
         if (ffVersion !== null && ffVersion >= 150) {
           statusText.textContent = 'WAICT is not enabled';
-          statusHelp.innerHTML = 'Visit <a href="about:config">about:config</a> and set <code>security.waict.enabled</code> to <code>true</code>.';
+          statusHelp.innerHTML = 'Visit <code>about:config</code> and set <code>security.waict.enabled</code> to <code>true</code>.';
         } else {
           statusText.textContent = 'Your browser does not support WAICT';
           if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
