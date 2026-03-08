@@ -1,6 +1,9 @@
 /resources/*
   Cache-Control: public, no-cache
 
+/
+  Integrity-Policy-WAICT-v1: manifest="/waict-manifest.json", blocked-destinations=(script), mode=enforce, max-age=0
+
 /enforce
   Integrity-Policy-WAICT-v1: manifest="/waict-manifest.json", blocked-destinations=(image script), mode=enforce, max-age=0, endpoints=(default)
 

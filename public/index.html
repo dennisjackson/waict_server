@@ -10,10 +10,49 @@
 </style>
 <body>
   <h1>WAICT Demo</h1>
-  <p class="note">Enable <code>security.waict.enabled</code> in <code>about:config</code> before testing.</p>
+  <div style="margin: 16px 0;">
+    <img id="status-indicator" src="/resources/phone_only.svg" style="height:80px; display: block;">
+    <p id="status-text" style="margin: 8px 0; font-weight: bold; color: red;"></p>
+    <p id="status-help" class="note"></p>
+  </div>
   <ul>
     <li><a href="/enforce">Enforce mode</a> — correct resources load, incorrect are blocked</li>
     <li><a href="/report">Report mode</a> — all resources load, violations reported in DevTools</li>
   </ul>
   <img class="fox" src="/resources/fox.webp">
+  <script>
+    window._waictWorking = false;
+
+    function getFirefoxVersion() {
+      const match = navigator.userAgent.match(/Firefox\/(\d+)/);
+      return match ? parseInt(match[1], 10) : null;
+    }
+
+    function updateStatusIndicator() {
+      const indicator = document.getElementById('status-indicator');
+      const statusText = document.getElementById('status-text');
+      const statusHelp = document.getElementById('status-help');
+      if (window._waictWorking) {
+        indicator.src = '/resources/blocked.svg';
+        statusText.textContent = 'Your Browser Supports WAICT';
+        statusText.style.color = 'green';
+        statusHelp.innerHTML = '';
+      } else {
+        indicator.src = '/resources/phone_only.svg';
+        const ffVersion = getFirefoxVersion();
+        if (ffVersion !== null && ffVersion >= 150) {
+          statusText.textContent = 'WAICT is not enabled';
+          statusHelp.innerHTML = 'Visit <a href="about:config">about:config</a> and set <code>security.waict.enabled</code> to <code>true</code>.';
+        } else {
+          statusText.textContent = 'Your browser does not support WAICT';
+          statusHelp.innerHTML = 'WAICT requires <a href="https://www.mozilla.org/firefox/">Firefox 150</a> or later.';
+        }
+        statusText.style.color = 'red';
+      }
+    }
+    updateStatusIndicator();
+  </script>
+  <script src="/resources/incorrect.js"
+    onerror="window._waictWorking=true; updateStatusIndicator();">
+  </script>
 </body>
