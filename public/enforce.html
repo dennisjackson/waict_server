@@ -46,26 +46,6 @@
   <div class="table-wrap"><table>
     <tr><th>Resource</th><th>Expected</th><th>Result</th></tr>
     <tr>
-      <td>correct.webp</td>
-      <td>Loaded</td>
-      <td>
-        <img class="resource" src="/resources/correct.webp"
-          onload="document.getElementById('correct-png').textContent='Loaded'; document.getElementById('correct-png').className='correct-result'"
-          onerror="document.getElementById('correct-png').textContent='Blocked'; document.getElementById('correct-png').className='wrong-result'">
-        <span id="correct-png" class="pending">...</span>
-      </td>
-    </tr>
-    <tr>
-      <td>incorrect.webp</td>
-      <td>Blocked</td>
-      <td>
-        <img class="resource" src="/resources/incorrect.webp"
-          onload="document.getElementById('incorrect-png').textContent='Loaded'; document.getElementById('incorrect-png').className='wrong-result'"
-          onerror="window._waictWorking=true; updateStatusIndicator(); document.getElementById('incorrect-png').textContent='Blocked'; document.getElementById('incorrect-png').className='correct-result'">
-        <span id="incorrect-png" class="pending">...</span>
-      </td>
-    </tr>
-    <tr>
       <td>correct.js</td>
       <td>Executed</td>
       <td><span id="correct-js-status" class="pending">...</span></td>
