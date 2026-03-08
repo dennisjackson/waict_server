@@ -33,9 +33,10 @@
   <h1>Enforce mode</h1>
   <div style="margin: 16px 0;">
     <img id="status-indicator" src="/resources/phone_only.svg" style="height:80px; display: block;">
-    <p id="status-text" style="margin: 8px 0; font-weight: bold; color: red;">Your browser does not support / has not enabled WAICT</p>
+    <p id="status-text" style="margin: 8px 0; font-weight: bold; color: red;"></p>
+    <p id="status-help" class="note"></p>
   </div>
-  <p>Enforce mode blocks all resources in <code>blocked-destinations</code> whose hash does not match the manifest, and generates an integrity violation report for each.</p>
+  <p>Enforce mode blocks all resources in <code>blocked-destinations</code> which are not covered in the manifest, and generates an integrity violation report for each.</p>
   <p>Header: <code>Integrity-Policy-WAICT-v1: manifest="/waict-manifest.json", blocked-destinations=(image script), mode=enforce, max-age=0, endpoints=(default)</code></p>
   <details>
     <summary>Manifest: <code>/waict-manifest.json</code></summary>
@@ -55,37 +56,58 @@
       <td>Not executed</td>
       <td><span id="incorrect-js-status" class="correct-result">Not executed</span></td>
     </tr>
+    <tr>
+      <td>missing.js</td>
+      <td>Not executed</td>
+      <td><span id="missing-js-status" class="correct-result">Not executed</span></td>
+    </tr>
   </table></div>
 
   <p class="note">The manifest is validated before each resource load — if the manifest is invalid (e.g. contains a malformed hash), none of the resources in <code>blocked-destinations</code> will be available.</p>
 
   <h2>Violation reports</h2>
-  <p class="note">Captured via <code>ReportingObserver</code>. Requires <code>dom.reporting.enabled</code> in about:config.</p>
+  <p class="note">Captured via <code>ReportingObserver</code>.</p>
   <ul id="reports"><li class="pending">None yet...</li></ul>
 
-  <img class="fox" src="/resources/fox.webp">
-
   <script>
-    // Track if WAICT is working (incorrect.js should be blocked if WAICT is on)
     window._waictWorking = false;
+
+    function getFirefoxVersion() {
+      const match = navigator.userAgent.match(/Firefox\/(\d+)/);
+      return match ? parseInt(match[1], 10) : null;
+    }
+
     function updateStatusIndicator() {
       const indicator = document.getElementById('status-indicator');
       const statusText = document.getElementById('status-text');
+      const statusHelp = document.getElementById('status-help');
       if (window._waictWorking) {
         indicator.src = '/resources/blocked.svg';
         statusText.textContent = 'Your Browser Supports WAICT';
         statusText.style.color = 'green';
+        statusHelp.innerHTML = '';
       } else {
         indicator.src = '/resources/phone_only.svg';
-        statusText.textContent = 'Your browser does not support / has not enabled WAICT';
+        const ffVersion = getFirefoxVersion();
+        if (ffVersion !== null && ffVersion >= 150) {
+          statusText.textContent = 'WAICT is not enabled';
+          statusHelp.innerHTML = 'Visit <a href="about:config">about:config</a> and set <code>security.waict.enabled</code> to <code>true</code>.';
+        } else {
+          statusText.textContent = 'Your browser does not support WAICT';
+          statusHelp.innerHTML = 'WAICT requires <a href="https://www.mozilla.org/firefox/">Firefox 150</a> or later.';
+        }
         statusText.style.color = 'red';
       }
     }
+    updateStatusIndicator();
   </script>
   <script src="/resources/correct.js"
     onerror="document.getElementById('correct-js-status').textContent='Blocked'; document.getElementById('correct-js-status').className='wrong-result'">
   </script>
   <script src="/resources/incorrect.js"
     onerror="window._waictWorking=true; updateStatusIndicator(); document.getElementById('incorrect-js-status').textContent='Blocked'; document.getElementById('incorrect-js-status').className='correct-result'">
+  </script>
+  <script src="/resources/missing.js"
+    onerror="window._waictWorking=true; updateStatusIndicator(); document.getElementById('missing-js-status').textContent='Blocked'; document.getElementById('missing-js-status').className='correct-result'">
   </script>
 </body>

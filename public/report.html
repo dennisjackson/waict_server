@@ -34,9 +34,11 @@
   <h1>Report mode</h1>
   <div style="margin: 16px 0;">
     <img id="status-indicator" src="/resources/phone_only.svg" style="height:80px; display: block;">
-    <p id="status-text" style="margin: 8px 0; font-weight: bold; color: red;">Your browser does not support / has not enabled WAICT</p>
+    <p id="status-text" style="margin: 8px 0; font-weight: bold; color: red;"></p>
+    <p id="status-help" class="note"></p>
   </div>
   <p>Report mode allows all resources in <code>blocked-destinations</code> to load regardless of hash match, but generates an integrity violation report for each mismatch.</p>
+  <p> These reports are logged in DevTools and reported to the site via the Reporting API.</p>
   <p>Header: <code>Integrity-Policy-WAICT-v1: manifest="/waict-manifest-report.json", blocked-destinations=(image script), mode=report, max-age=0</code></p>
   <details>
     <summary>Manifest: <code>/waict-manifest-report.json</code></summary>
@@ -56,36 +58,58 @@
       <td>Executed, violation reported</td>
       <td><span id="incorrect-js-status" class="pending">...</span></td>
     </tr>
+    <tr>
+      <td>missing.js</td>
+      <td>Executed, violation reported</td>
+      <td><span id="missing-js-status" class="pending">...</span></td>
+    </tr>
   </table></div>
 
   <h2>Violation reports</h2>
-  <p class="note">Captured via <code>ReportingObserver</code>. Requires <code>dom.reporting.enabled</code> in about:config.</p>
+  <p class="note">Captured via <code>ReportingObserver</code>.</p>
   <ul id="reports"><li class="pending">None yet...</li></ul>
 
-  <img class="fox" src="/resources/fox.webp">
-
   <script>
-    // Track if WAICT is working (in report mode, we detect by violation reports)
     window._waictWorking = false;
     window._incorrectJsExecutedClass = 'correct-result';
+    window._missingJsExecutedClass = 'correct-result';
+
+    function getFirefoxVersion() {
+      const match = navigator.userAgent.match(/Firefox\/(\d+)/);
+      return match ? parseInt(match[1], 10) : null;
+    }
+
     function updateStatusIndicator() {
       const indicator = document.getElementById('status-indicator');
       const statusText = document.getElementById('status-text');
+      const statusHelp = document.getElementById('status-help');
       if (window._waictWorking) {
         indicator.src = '/resources/blocked.svg';
         statusText.textContent = 'Your Browser Supports WAICT';
         statusText.style.color = 'green';
+        statusHelp.innerHTML = '';
       } else {
         indicator.src = '/resources/phone_only.svg';
-        statusText.textContent = 'Your browser does not support / has not enabled WAICT';
+        const ffVersion = getFirefoxVersion();
+        if (ffVersion !== null && ffVersion >= 150) {
+          statusText.textContent = 'WAICT is not enabled';
+          statusHelp.innerHTML = 'Visit <a href="about:config">about:config</a> and set <code>security.waict.enabled</code> to <code>true</code>.';
+        } else {
+          statusText.textContent = 'Your browser does not support WAICT';
+          statusHelp.innerHTML = 'WAICT requires <a href="https://www.mozilla.org/firefox/">Firefox 150</a> or later.';
+        }
         statusText.style.color = 'red';
       }
     }
+    updateStatusIndicator();
   </script>
   <script src="/resources/correct.js"
     onerror="document.getElementById('correct-js-status').textContent='Blocked'; document.getElementById('correct-js-status').className='wrong-result'">
   </script>
   <script src="/resources/incorrect.js"
     onerror="document.getElementById('incorrect-js-status').textContent='Blocked'; document.getElementById('incorrect-js-status').className='wrong-result'">
+  </script>
+  <script src="/resources/missing.js"
+    onerror="document.getElementById('missing-js-status').textContent='Blocked'; document.getElementById('missing-js-status').className='wrong-result'">
   </script>
 </body>

@@ -9,17 +9,16 @@
   ul { line-height: 2; }
 </style>
 <body>
-  <h1>WAICT Demo</h1>
+  <h1>WAICT Test Site</h1>
   <div style="margin: 16px 0;">
     <img id="status-indicator" src="/resources/phone_only.svg" style="height:80px; display: block;">
     <p id="status-text" style="margin: 8px 0; font-weight: bold; color: red;"></p>
     <p id="status-help" class="note"></p>
   </div>
   <ul>
-    <li><a href="/enforce">Enforce mode</a> — correct resources load, incorrect are blocked</li>
-    <li><a href="/report">Report mode</a> — all resources load, violations reported in DevTools</li>
+    <li><a href="/enforce">Enforce mode</a> — Resources not in the manifest are blocked.</li>
+    <li><a href="/report">Report mode</a> — Resources not in the manifest are reported to the site.</li>
   </ul>
-  <img class="fox" src="/resources/fox.webp">
   <script>
     window._waictWorking = false;
 
