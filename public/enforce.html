@@ -94,7 +94,7 @@
           statusHelp.innerHTML = 'Visit <code>about:config</code> and set <code>security.waict.enabled</code> to <code>true</code>.';
         } else {
           statusText.textContent = 'Your browser does not support WAICT';
-          if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+          if (/iPad|iPhone|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1)) {
             statusHelp.innerHTML = 'Unfortunately, Apple blocks third-party browsing engines on iOS so WAICT is unavailable on your device. <a href="https://open-web-advocacy.org/blog/apples-browser-engine-ban-persists-even-under-the-dma/">Learn more</a>.';
           } else {
             const nightlyURL = /Android/i.test(navigator.userAgent)
